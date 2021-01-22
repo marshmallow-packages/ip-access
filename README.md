@@ -1,17 +1,16 @@
 # Marshmallow - Laravel IP Access
 [![marshmallow.](https://marshmallow.dev/cdn/media/logo-red-237x46.png "marshmallow.")](https://marshmallow.dev)
 
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/marshmallow/nova-styling.svg)](https://packagist.org/packages/marshmallow/nova-styling)
-[![Total Downloads](https://img.shields.io/packagist/dt/marshmallow/nova-styling.svg)](https://packagist.org/packages/marshmallow/nova-styling)
-[![License](https://img.shields.io/packagist/l/marshmallow/nova-styling.svg)](https://gitlab.com/marshmallowdev)
-[![Stars](https://img.shields.io/github/stars/marshmallow-packages/nova-styling?color=yellow&style=plastic)](https://github.com/marshmallow-packages/nova-styling)
-[![Forks](https://img.shields.io/github/forks/marshmallow-packages/nova-styling?color=brightgreen&style=plastic)](https://github.com/marshmallow-packages/nova-styling)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/marshmallow/ip-access.svg)](https://packagist.org/packages/marshmallow/ip-access)
+[![Total Downloads](https://img.shields.io/packagist/dt/marshmallow/ip-access.svg)](https://packagist.org/packages/marshmallow/ip-access)
+[![License](https://img.shields.io/packagist/l/marshmallow/ip-access.svg)](https://gitlab.com/marshmallowdev)
+[![Stars](https://img.shields.io/github/stars/marshmallow-packages/ip-access?color=yellow&style=plastic)](https://github.com/marshmallow-packages/ip-access)
+[![Forks](https://img.shields.io/github/forks/marshmallow-packages/ip-access?color=brightgreen&style=plastic)](https://github.com/marshmallow-packages/ip-access)
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/marshmallow/ip-access.svg?style=flat-square)](https://packagist.org/packages/marshmallow/ip-access)
-[![GitHub Tests Action Status](https://img.shields.io/github/workflow/status/marshmallow/ip-access/run-tests?label=tests)](https://github.com/marshmallow/ip-access/actions?query=workflow%3ATests+branch%3Amaster)
-[![Total Downloads](https://img.shields.io/packagist/dt/marshmallow/ip-access.svg?style=flat-square)](https://packagist.org/packages/marshmallow/ip-access)
 
-
-This a IP Access redirect package. The purpose is to allow or deny access the Laravel routes by IP address. It is able to allow certain IPs or Users to access default files or envirioments, and redirect non-authorized IPs or Users to an external URL, while letting whitelisted IPs to have access to the entire site or to a special Envirionment.
+This a IP Access redirect package for IPv4 & IPv6.
+The purpose is to allow or deny access to the Laravel routes by IP address.
+It is able to allow certain IPs (IPv4 or IPv6) to access default files or envirioments, and redirect non-authorized IPs or Users to an external URL, while letting whitelisted IPs to have access to the entire site or to a special Envirionment.
 
 ## Installation
 
@@ -21,9 +20,9 @@ You can install the package via composer:
 composer require marshmallow/ip-access
 ```
 
-You can publish the config file with:
+And publish the service provider (and config):
 ```bash
-php artisan vendor:publish --provider="Marshmallow\IpAccess\IpAccessServiceProvider" --tag="config"
+php artisan vendor:publish --provider="Marshmallow\IpAccess\IpAccessServiceProvider"
 ```
 
 This is the contents of the published config file:
@@ -49,6 +48,7 @@ return [
 ];
 ```
 
+## Optional
 These are the optional .env variables to set up:
 ```
     # ENABLED
