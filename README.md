@@ -21,13 +21,6 @@ You can install the package via composer:
 composer require marshmallow/ip-access
 ```
 
-You can publish and run the migrations with:
-
-```bash
-php artisan vendor:publish --provider="Marshmallow\IpAccess\IpAccessServiceProvider" --tag="migrations"
-php artisan migrate
-```
-
 You can publish the config file with:
 ```bash
 php artisan vendor:publish --provider="Marshmallow\IpAccess\IpAccessServiceProvider" --tag="config"
@@ -37,28 +30,44 @@ This is the contents of the published config file:
 
 ```php
 return [
+    'enabled' => env('IPACCESS_ENABLED', true),
+
+    'whitelist_env' => env('IPACCESS_ENV', 'production'),
+
+    'whitelist' => [
+        'range' => [
+            '127.0.0.*',
+        ],
+        'list' => [
+            '127.0.0.1',
+        ]
+    ],
+
+    'redirect_to'      => env('IPACCESS_DENIED_URL', null),
+    'response_status'  => env('IPACCESS_DENIED_STATUS', 403),
+    'response_message' => env('IPACCESS_DENIED_MESSAGE', 'Access not Allowed'),
 ];
 ```
 
-## Usage
+These are the optional .env variables to set up:
+```
+    # ENABLED
+    IPACCESS_ENABLED=true
 
-```php
-$ip-access = new Marshmallow\IpAccess();
-echo $ip-access->echoPhrase('Hello, Marshmallow!');
+    # ENV THAT IS CHECKED BY IP e.g. staging
+    IPACCESS_ENV=production
+
+    # ADDIOTNAL IP LIST
+    IPACCESS_WHITELIST="127.0.0.1,123.456.789.12"   # SEPERATED BY ,
+
+    # URL TO REDIRECT TO:
+    IPACCESS_DENIED_URL="https://marshmallow.dev"
+
+    # IF URL NOT SET
+    IPACCESS_DENIED_STATUS=403                      # REDIRECT STATUS
+    IPACCESS_DENIED_MESSAGE="Not allowed"           # REDIRECT STATUS MESSAGE
 ```
 
-## Usage in Laravel Nova
-Are you using Nova? We have a command for you to generate the Nova Resource. Run the commands below and the resources will be available to you in Nova. We hide the Address resource by default in the Nova navigation. If you wish to have it available in the navigation, add `public static $displayInNavigation = true;` to `app/Nova/IpAccess.php`.
-
-```
-`php artisan marshmallow:resource IpAccess`
-```
-
-## Testing
-
-```bash
-composer test
-```
 
 ## Changelog
 
