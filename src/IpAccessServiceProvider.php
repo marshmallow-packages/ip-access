@@ -15,12 +15,7 @@ class IpAccessServiceProvider extends ServiceProvider
             __DIR__ . '/../config/ip-access.php' => config_path('ip-access.php'),
         ], 'config');
 
-        // Global
         $kernel = $this->app->make(Kernel::class);
         $kernel->pushMiddleware(IpWebAccess::class);
-
-        // Route
-        // $router = $this->app->make(Router::class);
-        // $router->pushMiddlewareToGroup('web',  IpWebAccess::class);
     }
 }

@@ -19,7 +19,7 @@ return [
     ],
 
     // ACCESS DENIED RESPONSE SETTINGS
-    'redirect_to'      => env('IPACCESS_DENIED_URL', 'https://marshmallow.dev'),
+    'redirect_to'      => env('IPACCESS_DENIED_URL', null),
     'response_status'  => env('IPACCESS_DENIED_STATUS', 403),
     'response_message' => env('IPACCESS_DENIED_MESSAGE', 'Access not Allowed'),
 ];
