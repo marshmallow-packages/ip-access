@@ -6,7 +6,6 @@
 [![License](https://img.shields.io/packagist/l/marshmallow/ip-access.svg)](https://gitlab.com/marshmallowdev)
 [![Stars](https://img.shields.io/github/stars/marshmallow-packages/ip-access?color=yellow&style=plastic)](https://github.com/marshmallow-packages/ip-access)
 [![Forks](https://img.shields.io/github/forks/marshmallow-packages/ip-access?color=brightgreen&style=plastic)](https://github.com/marshmallow-packages/ip-access)
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/marshmallow/ip-access.svg?style=flat-square)](https://packagist.org/packages/marshmallow/ip-access)
 
 This a IP Access redirect package for IPv4 & IPv6.
 The purpose is to allow or deny access to the Laravel routes by IP address.
