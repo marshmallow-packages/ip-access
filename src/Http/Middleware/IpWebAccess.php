@@ -33,7 +33,7 @@ class IpWebAccess
     {
         $this->ips = config('ip-access.whitelist.list', null);
         $excludedEnv = config('ip-access.whitelist_env');
-        $ipAccessEnabled = config('ip-access.whitelist_env');
+        $ipAccessEnabled = config('ip-access.enabled');
 
         if (app()->environment() !== $excludedEnv || !$ipAccessEnabled) {
             return $next($request);
