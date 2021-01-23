@@ -3,7 +3,8 @@
     "description": "Marshmallow - Laravel IP Access",
     "keywords": [
         "marshmallow",
-        "ip-access"
+        "ip-access",
+        "laravel nova"
     ],
     "homepage": "https://github.com/marshmallow/ip-access",
     "license": "MIT",
@@ -12,11 +13,17 @@
             "name": "LTKort",
             "email": "lars@marshmallow.dev",
             "role": "Developer"
+        },{
+            "name": "Stef van Esch",
+            "email": "stef@marshmallow.dev",
+            "role": "Developer"
         }
     ],
     "require": {
         "php": "^7.4|^8.0",
-        "illuminate/contracts": "^8.0"
+        "illuminate/contracts": "^8.0",
+        "marshmallow/commands": "^1.2",
+        "marshmallow/helpers": "^2.0"
     },
     "require-dev": {
         "orchestra/testbench": "^6.0",

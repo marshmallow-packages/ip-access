@@ -67,6 +67,28 @@ These are the optional .env variables to set up:
     IPACCESS_DENIED_MESSAGE="Not allowed"           # REDIRECT STATUS MESSAGE
 ```
 
+## Usage with Laravel Nova
+If you want to keep track of the ip addresses that have access using Laravel Nova you need to follow the following steps.
+
+### Update your config file
+Set `use_nova` to true in `config/ip-access.php`.
+```php
+return [
+    'use_nova' => true,
+];
+```
+
+### Run migrations
+You need to run the migrations after you've update the config file so we have the tables we need to store the ip addresse.
+```bash
+php artisan migrate
+```
+
+### Publish the Nova resource
+The last step is publishing the Nova resource so you can manage all ip address in your Laravel Nova installation.
+```bash
+php artisan marshmallow:resource IpAccess IpAccess
+```
 
 ## Changelog
 
@@ -83,6 +105,7 @@ Please review [our security policy](../../security/policy) on how to report secu
 ## Credits
 
 - [LTKort](https://github.com/LTKort)
+- [Stef van Esch](https://github.com/stefvanesch)
 - [All Contributors](../../contributors)
 
 ## License

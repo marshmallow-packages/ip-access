@@ -18,4 +18,20 @@ class IpAccessServiceProvider extends ServiceProvider
         $kernel = $this->app->make(Kernel::class);
         $kernel->pushMiddleware(IpWebAccess::class);
     }
+
+    public function register()
+    {
+        $this->mergeConfigFrom(
+            __DIR__.'/../config/ip-access.php',
+            'ip-access'
+        );
+
+        /**
+         * Only run migrations if the config has use_nova
+         * set to true.
+         */
+        if (config('ip-access.use_nova') === true) {
+            $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+        }
+    }
 }
