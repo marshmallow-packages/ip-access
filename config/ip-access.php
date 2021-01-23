@@ -22,5 +22,10 @@ return [
     'redirect_to'      => env('IPACCESS_DENIED_URL', null),
     'response_status'  => env('IPACCESS_DENIED_STATUS', 403),
     'response_message' => env('IPACCESS_DENIED_MESSAGE', 'Access not Allowed'),
+
+    /**
+     * Keep track of the ip address using Nova
+     */
+    'use_nova' => true,
 ];
 
