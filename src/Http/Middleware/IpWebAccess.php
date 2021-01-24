@@ -90,7 +90,7 @@ class IpWebAccess
 
     protected function addNovaSingleIpAddress()
     {
-        $nova_ips = IpAccess::single()->active()->get()->pluck('ip_address')->toArray();
+        $nova_ips = IpAccess::single()->active()->get()->pluck('ip_address_v4')->toArray();
         $this->addNovaIpAddress($nova_ips, 'ips');
     }
 
