@@ -5,6 +5,7 @@ namespace Marshmallow\IpAccess\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Marshmallow\IpAccess\Models\IpAccess;
+use Marshmallow\HelperFunctions\Facades\Ip;
 use Symfony\Component\HttpFoundation\IpUtils;
 
 class IpWebAccess
@@ -68,6 +69,7 @@ class IpWebAccess
      */
     protected function isValidIp($ip)
     {
+        $ip = Ip::forcedIpv4($ip);
         $whitelistEnv = env('IPACCESS_WHITELIST', null);
 
         if (isset($whitelistEnv) && !empty($whitelistEnv)) {
@@ -82,21 +84,41 @@ class IpWebAccess
         return in_array($ip, $this->ips);
     }
 
-    protected function addNovaIpAddress(array $ip_address, string $column)
+    /**
+     * Helper method to merge database results to the
+     * properties containing the ip addresses.
+     *
+     * @license Test
+     * @link    Test
+     * @param   array  $ip_address Array of ip addresses from the database
+     * @param   string $parameter  The property we store it in ($ips | $ipRanges)
+     * @return  void
+     */
+    protected function addNovaIpAddress(array $ip_address, string $parameter)
     {
-        $this->{$column} = array_merge($this->{$column}, $ip_address);
-        $this->{$column} = array_unique($this->{$column});
+        $this->{$parameter} = array_merge($this->{$parameter}, $ip_address);
+        $this->{$parameter} = array_unique($this->{$parameter});
     }
 
+    /**
+     * Get all single ip addresses from the database.
+     *
+     * @return void
+     */
     protected function addNovaSingleIpAddress()
     {
         $nova_ips = IpAccess::single()->active()->get()->pluck('ip_address_v4')->toArray();
         $this->addNovaIpAddress($nova_ips, 'ips');
     }
 
+    /**
+     * Get all ranges from the database.
+     *
+     * @return void
+     */
     protected function addNovaRangeIpAddress()
     {
-        $nova_ips = IpAccess::range()->active()->get()->pluck('ip_address')->toArray();
+        $nova_ips = IpAccess::range()->active()->get()->pluck('ip_address_v4')->toArray();
         $this->addNovaIpAddress($nova_ips, 'ipRanges');
     }
 
@@ -108,6 +130,7 @@ class IpWebAccess
      */
     protected function isValidIpRange($ip)
     {
+        $ip = Ip::forcedIpv4($ip);
         $this->ipRanges = config('ip-access.whitelist.range', null);
         if (config('ip-access.use_nova')) {
             $this->addNovaRangeIpAddress();
