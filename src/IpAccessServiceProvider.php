@@ -2,10 +2,11 @@
 
 namespace Marshmallow\IpAccess;
 
-use Marshmallow\IpAccess\Http\Middleware\IpWebAccess;
-use Illuminate\Support\ServiceProvider;
 use Illuminate\Routing\Router;
 use Illuminate\Contracts\Http\Kernel;
+use Illuminate\Support\ServiceProvider;
+use Marshmallow\IpAccess\Http\Middleware\IpWebAccess;
+use Marshmallow\IpAccess\Console\Commands\UninstallCommand;
 
 class IpAccessServiceProvider extends ServiceProvider
 {
@@ -17,12 +18,23 @@ class IpAccessServiceProvider extends ServiceProvider
 
         $kernel = $this->app->make(Kernel::class);
         $kernel->pushMiddleware(IpWebAccess::class);
+
+        /*
+         * Commands
+         */
+        if ($this->app->runningInConsole()) {
+            $this->commands(
+                [
+                    UninstallCommand::class,
+                ]
+            );
+        }
     }
 
     public function register()
     {
         $this->mergeConfigFrom(
-            __DIR__.'/../config/ip-access.php',
+            __DIR__ . '/../config/ip-access.php',
             'ip-access'
         );
 
@@ -31,7 +43,7 @@ class IpAccessServiceProvider extends ServiceProvider
          * set to true.
          */
         if (config('ip-access.use_nova') === true) {
-            $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+            $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
         }
     }
 }

@@ -1,4 +1,5 @@
 # Marshmallow - Laravel IP Access
+
 [![marshmallow.](https://marshmallow.dev/cdn/media/logo-red-237x46.png "marshmallow.")](https://marshmallow.dev)
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/marshmallow/ip-access.svg)](https://packagist.org/packages/marshmallow/ip-access)
@@ -20,6 +21,7 @@ composer require marshmallow/ip-access
 ```
 
 And publish the service provider (and config):
+
 ```bash
 php artisan vendor:publish --provider="Marshmallow\IpAccess\IpAccessServiceProvider"
 ```
@@ -48,7 +50,9 @@ return [
 ```
 
 ## Optional
+
 These are the optional .env variables to set up:
+
 ```
     # ENABLED
     IPACCESS_ENABLED=true
@@ -68,10 +72,13 @@ These are the optional .env variables to set up:
 ```
 
 ## Usage with Laravel Nova
+
 If you want to keep track of the ip addresses that have access using Laravel Nova you need to follow the following steps.
 
 ### Update your config file
+
 Set `use_nova` to true in `config/ip-access.php`.
+
 ```php
 return [
     'use_nova' => true,
@@ -79,15 +86,27 @@ return [
 ```
 
 ### Run migrations
+
 You need to run the migrations after you've update the config file so we have the tables we need to store the ip addresse.
+
 ```bash
 php artisan migrate
 ```
 
 ### Publish the Nova resource
+
 The last step is publishing the Nova resource so you can manage all ip address in your Laravel Nova installation.
+
 ```bash
 php artisan marshmallow:resource IpAccess IpAccess
+```
+
+## Uninstall
+
+Once your application is done and you are going to publish your application to production for the whole world to see, you can delete this package. You don't need it anymore and its always good practice to keep your code clean. Run the command below to uninstall this package. This command will delete the `config` file. Delete the `nova resource`, delete the `migration` record, delete the `ip_accesss` database table and remove the package from your `composer` file. You will have to review and commit the changes in you GIT repository yourself.
+
+```bash
+php artisan ip-access:uninstall
 ```
 
 ## Changelog
@@ -104,9 +123,9 @@ Please review [our security policy](../../security/policy) on how to report secu
 
 ## Credits
 
-- [LTKort](https://github.com/LTKort)
-- [Stef van Esch](https://github.com/stefvanesch)
-- [All Contributors](../../contributors)
+-   [LTKort](https://github.com/LTKort)
+-   [Stef van Esch](https://github.com/stefvanesch)
+-   [All Contributors](../../contributors)
 
 ## License
 
