@@ -14,6 +14,16 @@ class IpAccess extends Model
 
     protected $guarded = [];
 
+    /**
+     * The attributes that should be cast to native types.
+     *
+     * @var array
+     */
+    protected $casts = [
+        'from' => 'datetime',
+        'till' => 'datetime',
+    ];
+
     public function isCurrentIp()
     {
         return Ip::forcedIpv4($this->ip_address) == Ip::forcedIpv4(request()->ip());
