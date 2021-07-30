@@ -41,6 +41,10 @@ class IpWebAccess
             return $next($request);
         }
 
+        if ($this->inExceptArray($request)) {
+            return $next($request);
+        }
+
         foreach ($request->getClientIps() as $ip) {
 
             if (!$this->isValidIp($ip) && !$this->isValidIpRange($ip)) {
@@ -136,5 +140,28 @@ class IpWebAccess
             $this->addNovaRangeIpAddress();
         }
         return IpUtils::checkIp($ip, $this->ipRanges);
+    }
+
+    /**
+     * Determine if the request has a URI that should pass through IP verification.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return bool
+     */
+    protected function inExceptArray($request)
+    {
+        $excepts = config('ip-access.except', null);
+
+        foreach ($excepts as $except) {
+            if ($except !== '/') {
+                $except = trim($except, '/');
+            }
+
+            if ($request->fullUrlIs($except) || $request->is($except)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
