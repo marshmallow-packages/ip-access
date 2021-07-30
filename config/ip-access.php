@@ -18,6 +18,8 @@ return [
         ]
     ],
 
+    'except' => [],
+
     // ACCESS DENIED RESPONSE SETTINGS
     'redirect_to'      => env('IPACCESS_DENIED_URL', null),
     'response_status'  => env('IPACCESS_DENIED_STATUS', 403),
@@ -28,4 +30,3 @@ return [
      */
     'use_nova' => true,
 ];
-
