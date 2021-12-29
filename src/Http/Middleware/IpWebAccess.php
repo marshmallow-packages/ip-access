@@ -3,7 +3,7 @@
 namespace Marshmallow\IpAccess\Http\Middleware;
 
 use Closure;
-use Illuminate\Http\Request;
+use Exception;
 use Marshmallow\IpAccess\Models\IpAccess;
 use Marshmallow\HelperFunctions\Facades\Ip;
 use Symfony\Component\HttpFoundation\IpUtils;
@@ -37,6 +37,9 @@ class IpWebAccess
         $excludedEnv = config('ip-access.whitelist_env');
         $ipAccessEnabled = config('ip-access.enabled');
 
+        $accessPath = config('ip-access.access_path') ?? 'ip-access';
+        $accessPathEnabled = config('ip-access.access_path_enabled') ?? false;
+
         if (app()->environment() !== $excludedEnv || !$ipAccessEnabled) {
             return $next($request);
         }
@@ -48,6 +51,11 @@ class IpWebAccess
         foreach ($request->getClientIps() as $ip) {
 
             if (!$this->isValidIp($ip) && !$this->isValidIpRange($ip)) {
+
+                if ($accessPathEnabled && $request->path() == $accessPath && app()->bound('sentry')) {
+                    $exception = new Exception("Access with IP {$ip} is requested but denied", 403);
+                    report($exception);
+                }
 
                 $redirect_to = config('ip-access.redirect_to');
 

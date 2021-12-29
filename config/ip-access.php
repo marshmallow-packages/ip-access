@@ -25,6 +25,10 @@ return [
     'response_status'  => env('IPACCESS_DENIED_STATUS', 403),
     'response_message' => env('IPACCESS_DENIED_MESSAGE', 'Access not Allowed'),
 
+    //ACCESS PATH FOR LOGGING
+    'access_path_enabled'  => env('IPACCESS_PATH_ENABLED', false),
+    'access_path' => env('IPACCESS_PATH', '/ip-access'),
+
     /**
      * Keep track of the ip address using Nova
      */

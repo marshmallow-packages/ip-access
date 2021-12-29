@@ -5,6 +5,7 @@ namespace Marshmallow\IpAccess\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 use Marshmallow\HelperFunctions\Facades\Ip;
+use Symfony\Component\HttpFoundation\IpUtils;
 use Marshmallow\HelperFunctions\Facades\Builder as BuilderHelper;
 
 class IpAccess extends Model
@@ -53,6 +54,18 @@ class IpAccess extends Model
             $this->ip_address_v4 = Ip::forcedIpv4($this->ip_address);
             $this->ip_address_v6 = $this->ip_address;
         }
+    }
+
+    public static function hasBackofficeAccess()
+    {
+        $ip_address = Ip::forcedIpv4(request()->ip());
+        $ipRanges = IpAccess::where('backoffice_access', true)
+            ->active()
+            ->get()
+            ->pluck('ip_address_v4')
+            ->toArray();
+
+        return IpUtils::checkIp($ip_address, $ipRanges);
     }
 
     protected static function boot()
