@@ -75,6 +75,14 @@ These are the optional .env variables to set up:
 
 If you want to keep track of the ip addresses that have access using Laravel Nova you need to follow the following steps.
 
+To add an check for IP access in Nova, add the following to NovaServiceProvider:
+
+```php
+Gate::define('viewNova', function ($user) {
+    return IpAccess::hasBackofficeAccess();
+}
+```
+
 ### Update your config file
 
 Set `use_nova` to true in `config/ip-access.php`.
