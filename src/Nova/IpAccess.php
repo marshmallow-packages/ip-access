@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\DateTime;
+use Laravel\Nova\Fields\Boolean;
 use Marshmallow\IpAccess\Models\IpAccess as IpAccessModel;
 use Marshmallow\HelperFunctions\Facades\Ip;
 
@@ -88,11 +89,13 @@ class IpAccess extends Resource
                 ->rules(['required'])
                 ->required(),
 
+            Boolean::make(__('Backoffice access'), 'backoffice_access'),
+
             Text::make(__('IP Address'), 'ip_address')
                 ->withMeta($this->ip_address ? [] : [
                     'value' => $request->ip(),
                 ])
-                ->displayUsing(function ($value, $resource) use($request) {
+                ->displayUsing(function ($value, $resource) use ($request) {
                     $return = $value;
                     if ($resource->isCurrentIp($value)) {
                         $return .= '<span class="ml-2 bg-success text-white p-1 pl-2 pr-2 rounded-sm inline-block text-sm">';
