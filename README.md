@@ -71,6 +71,64 @@ These are the optional .env variables to set up:
     IPACCESS_DENIED_MESSAGE="Not allowed"           # REDIRECT STATUS MESSAGE
 ```
 
+## Disable lock for routes and webhooks
+
+If you are testing webhooks on an ip locked envoirment you need to open up your application so the webhooks won't be blocked. You can do this by adding values in the config array `except`. Below you will find a few examples.
+
+### Just open up a route
+
+Add a url to the array to just open it up. If this route is matched, the package will just let the request through.
+
+```php
+'except' => [
+    'webhook/*',
+],
+```
+
+### Open up with a secret
+
+If you want to open up the route but want to require the request to have a secret, you can do so by adding some settings to the except array.
+
+#### Via headers
+```php
+'except' => [
+    'webhook/*' => [
+        'secret' => [
+            'source' => 'header',
+            'key' => 'x-webhook-secret',
+            'value' => 'TEST_SECRET_HEADER',
+        ],
+    ],
+],
+
+/** This request will be allowed by the config above. */
+Http::withHeaders([
+  "x-webhook-secret" => "TEST_SECRET_HEADER"
+])->get("https://marshmallow.dev/webhook/is/open");
+```
+
+#### Via body/query string
+```php
+'except' => [
+    'webhook/*' => [
+        'secret' => [
+            'source' => 'body',
+            'key' => 'secret',
+            'value' => 'TEST_SECRET_BODY',
+        ],
+    ],
+],
+
+/** These requests will be allowed by the config above. */
+Http::get("https://marshmallow.dev/webhook/is/open?secret=TEST_SECRET_BODY");
+Http::get("https://marshmallow.dev/webhook/is/open", [
+  "secret" => "TEST_SECRET_BODY"
+]);
+Http::post("https://marshmallow.dev/webhook/is/open", [
+  "secret" => "TEST_SECRET_BODY"
+]);
+```
+
 ## Usage with Laravel Nova
 
 If you want to keep track of the ip addresses that have access using Laravel Nova you need to follow the following steps.
