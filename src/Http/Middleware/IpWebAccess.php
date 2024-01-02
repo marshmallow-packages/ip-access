@@ -4,6 +4,7 @@ namespace Marshmallow\IpAccess\Http\Middleware;
 
 use Closure;
 use Exception;
+use Illuminate\Support\Arr;
 use Marshmallow\IpAccess\Models\IpAccess;
 use Marshmallow\HelperFunctions\Facades\Ip;
 use Symfony\Component\HttpFoundation\IpUtils;
@@ -160,12 +161,32 @@ class IpWebAccess
     {
         $excepts = config('ip-access.except', null);
 
-        foreach ($excepts as $except) {
+        foreach ($excepts as $except => $settings) {
+            $except = is_array($settings) ? $except : $settings;
+            $settings = is_array($settings) ? $settings : [];
+
             if ($except !== '/') {
                 $except = trim($except, '/');
             }
 
             if ($request->fullUrlIs($except) || $request->is($except)) {
+
+                $secret = Arr::get($settings, 'secret');
+
+                if ($secret) {
+                    $source = Arr::get($secret, 'source') ?? 'body';
+                    $key = Arr::get($secret, 'key') ?? 'secret';
+                    $value = Arr::get($secret, 'value');
+
+                    $provided_value = $source == 'header'
+                        ? $request->header($key)
+                        : $request->{$key};
+
+                    if ($provided_value !== $value) {
+                        return false;
+                    }
+                }
+
                 return true;
             }
         }

@@ -18,7 +18,15 @@ return [
         ]
     ],
 
-    'except' => [],
+    'except' => [
+        // 'webhook/*' => [
+        //     'secret' => [
+        //         'source' => 'header',
+        //         'key' => 'x-webhook-secret',
+        //         'value' => 'TEST_SECRET_HEADER',
+        //     ],
+        // ],
+    ],
 
     // ACCESS DENIED RESPONSE SETTINGS
     'redirect_to'      => env('IPACCESS_DENIED_URL', null),
