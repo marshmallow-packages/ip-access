@@ -22,7 +22,7 @@
     ],
     "require": {
         "php": "^8.0",
-        "illuminate/contracts": "^8.0|^9.0|^10.0",
+        "illuminate/contracts": "^8.0|^9.0|^10.0|^11.0",
         "marshmallow/commands": "^1.2",
         "marshmallow/helpers": "^2.0",
         "laravel/nova": "^4.0"
