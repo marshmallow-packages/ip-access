@@ -69,7 +69,7 @@ class IpAccess extends Resource
     /**
      * Get the fields displayed by the resource.
      *
-     * @param Laravel\Nova\Http\Requests\NovaRequest $request Request
+     * @param NovaRequest $request Request
      *
      * @return array
      */
@@ -95,7 +95,7 @@ class IpAccess extends Resource
                 ->withMeta($this->ip_address ? [] : [
                     'value' => $request->ip(),
                 ])
-                ->displayUsing(function ($value, $resource) use ($request) {
+                ->displayUsing(function ($value, $resource) {
                     $return = $value;
                     if ($resource->isCurrentIp($value)) {
                         $return .= '<span class="ml-2 bg-success text-white p-1 pl-2 pr-2 rounded-sm inline-block text-sm">';
