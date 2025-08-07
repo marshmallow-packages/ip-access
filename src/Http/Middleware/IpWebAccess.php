@@ -4,6 +4,7 @@ namespace Marshmallow\IpAccess\Http\Middleware;
 
 use Closure;
 use Exception;
+use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Marshmallow\IpAccess\Models\IpAccess;
 use Marshmallow\HelperFunctions\Facades\Ip;
@@ -28,7 +29,7 @@ class IpWebAccess
     /**
      * Handle an incoming request.
      *
-     * @param  \Illuminate\Http\Request $request
+     * @param  Request $request
      * @param  \Closure $next
      * @return mixed
      */
@@ -154,7 +155,7 @@ class IpWebAccess
     /**
      * Determine if the request has a URI that should pass through IP verification.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  Request  $request
      * @return bool
      */
     protected function inExceptArray($request)
