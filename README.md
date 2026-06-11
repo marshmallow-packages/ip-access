@@ -12,6 +12,12 @@ This a IP Access redirect package for IPv4 & IPv6.
 The purpose is to allow or deny access to the Laravel routes by IP address.
 It is able to allow certain IPs (IPv4 or IPv6) to access default files or envirioments, and redirect non-authorized IPs or Users to an external URL, while letting whitelisted IPs to have access to the entire site or to a special Envirionment.
 
+## Requirements
+
+-   PHP `^8.0`
+-   Laravel `8.x` – `13.x` (`illuminate/contracts`)
+-   Laravel Nova `^4.0|^5.0` (optional — only required when using the Nova IP management feature)
+
 ## Installation
 
 You can install the package via composer:
@@ -30,10 +36,14 @@ This is the contents of the published config file:
 
 ```php
 return [
+
+    // ENABLE IP ACCESS
     'enabled' => env('IPACCESS_ENABLED', true),
 
+    // ENV TO CHECK IP ADDRESS FOR
     'whitelist_env' => env('IPACCESS_ENV', 'production'),
 
+    // WHITELIST IPs GET ACCESS TO ENV
     'whitelist' => [
         'range' => [
             '127.0.0.*',
@@ -43,9 +53,22 @@ return [
         ]
     ],
 
+    // ROUTES THAT BYPASS THE IP CHECK (see "Disable lock for routes and webhooks")
+    'except' => [
+        //
+    ],
+
+    // ACCESS DENIED RESPONSE SETTINGS
     'redirect_to'      => env('IPACCESS_DENIED_URL', null),
     'response_status'  => env('IPACCESS_DENIED_STATUS', 403),
     'response_message' => env('IPACCESS_DENIED_MESSAGE', 'Access not Allowed'),
+
+    // ACCESS PATH FOR LOGGING (reports denied requests to Sentry when bound)
+    'access_path_enabled'  => env('IPACCESS_PATH_ENABLED', false),
+    'access_path' => env('IPACCESS_PATH', '/ip-access'),
+
+    // KEEP TRACK OF THE IP ADDRESSES USING NOVA
+    'use_nova' => true,
 ];
 ```
 
